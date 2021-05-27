@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+    {% block title %}
+        Hello {{ name }}!
+    {% endblock %}
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        {{ parent() }}
+
+    {% endblock %}
+
+    {% block body %}
+        <p>
+            Hello {{ name }}!
+        </p>
+    {% endblock %}

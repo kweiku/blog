@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_comment_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title_comment_list'|trans }}</h1>
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label_id'|trans, 'comment.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label_nick'|trans, 'comment.nick') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label_content'|trans, 'comment.content') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label_created_at'|trans, 'comment.createdAt') }}</th>
+                <th scope="col">
+                    {{ 'label_actions'|trans }}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for comment in pagination.items %}
+                <tr>
+                    <td>{{ comment.id }}</td>
+                    <td>{{ comment.nick }}</td>
+                    <td>{{ comment.content }}</td>
+                    <td>{{ comment.createdAt|date('Y/m/d') }}</td>
+                    <td>
+                        <a href="{{ url('comment_show', {id: comment.id}) }}" title="view">
+                            View
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {{ 'message_empty_list'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

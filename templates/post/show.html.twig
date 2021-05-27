@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_post_details'|trans({'%id%': post.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title_post_details'|trans({'%id%': post.id|default('')}) }}</h1>
+    {% if post is defined and post|length %}
+        <dl>
+            <dt>{{ 'label_title'|trans }}</dt>
+            <dd>{{ post.title }}</dd>
+            <dt>{{ 'label_content'|trans }}</dt>
+            <dd>{{ post.content }}</dd>
+            <dt>{{ 'label_created_at'|trans }}</dt>
+            <dd>{{ post.createdAt|date('Y/m/d') }}</dd>
+            <dt>{{ 'label_category'|trans }}</dt>
+            <dd>{{  post.category.title }}</dd>
+        </dl>
+    {% else %}
+        <p>
+            {{ 'message_item_not_found'|trans }}
+        </p>
+    {% endif %}
+    <p>
+        <a href="{{ url('post_index') }}" title="{{ 'action_back_to_list'|trans }}">
+            {{ 'action_back_to_list'|trans }}
+        </a>
+    </p>
+{% endblock %}
