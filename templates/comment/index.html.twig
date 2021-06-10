@@ -32,8 +32,13 @@
                     <td>{{ comment.content }}</td>
                     <td>{{ comment.createdAt|date('Y/m/d') }}</td>
                     <td>
-                        <a href="{{ url('comment_show', {id: comment.id}) }}" title="view">
-                            View
+                        <a href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'label_view'|trans }}">
+                            {{ 'label_view'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('comment_delete', {id: comment.id}) }}" title="{{ 'label_delete'|trans }}">
+                            {{ 'label_delete'|trans }}
                         </a>
                     </td>
                 </tr>
@@ -47,7 +52,13 @@
 
     {% else %}
         <p>
-            {{ 'message_empty_list'|trans }}
+            {% include 'default/_single_flash_message.html.twig' with {
+                type: 'warning',
+                message: 'message.empty_list'|trans
+            } %}
         </p>
     {% endif %}
+        <a href="{{ url('comment_create')}}" title="create">
+            {{ 'add_comment'|trans }}
+        </a>
 {% endblock %}

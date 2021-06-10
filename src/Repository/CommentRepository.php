@@ -1,4 +1,7 @@
 <?php
+/**
+ * Comment repository.
+ */
 
 namespace App\Repository;
 
@@ -8,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
+ * Class CommentRepository.
+ *
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Comment|null findOneBy(array $criteria, array $orderBy = null)
  * @method Comment[]    findAll()
@@ -57,5 +62,33 @@ class CommentRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('comment');
+    }
+
+    /**
+     * Save record.
+     *
+     * @param \App\Entity\Comment $comment Comment entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Comment $comment): void
+    {
+        $this->_em->persist($comment);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete record.
+     *
+     * @param \App\Entity\Comment $comment Comment entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Comment $comment): void
+    {
+        $this->_em->remove($comment);
+        $this->_em->flush();
     }
 }

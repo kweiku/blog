@@ -6,6 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\PostType;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +27,8 @@ class PostController extends AbstractController
      * @param \App\Repository\PostRepository $postRepository Post repository
      * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
      * @param \Knp\Component\Pager\PaginatorInterface $paginator Paginator
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP response
      *
      * @Route(
      *     "/",
@@ -52,7 +55,7 @@ class PostController extends AbstractController
      *
      * @param \App\Entity\Post $post Comment entity
      *
-     * @return Symfony\Component\HttpFoundation\Response HTTP Response
+     * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      *
      * @Route(
      *     "/{id}",
@@ -66,6 +69,128 @@ class PostController extends AbstractController
         return $this->render(
             'post/show.html.twig',
             ['post' => $post]
+        );
+    }
+
+    /**
+     * Create action.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
+     * @param \App\Repository\PostRepository        $postRepository Post repository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @Route(
+     *     "/create",
+     *     methods={"GET", "POST"},
+     *     name="post_create",
+     * )
+     */
+    public function create(Request $request, PostRepository $postRepository): Response
+    {
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $postRepository->save($post);
+
+            $this->addFlash('success', 'message_created_successfully');
+
+            return $this->redirectToRoute('post_index');
+        }
+
+        return $this->render(
+            'post/create.html.twig',
+            ['form' => $form->createView()]
+        );
+    }
+
+    /**
+     * Edit action.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
+     * @param \App\Entity\Post                      $post           Post entity
+     * @param \App\Repository\PostRepository        $postRepository Post repository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @Route(
+     *     "/{id}/edit",
+     *     methods={"GET", "PUT"},
+     *     requirements={"id": "[1-9]\d*"},
+     *     name="post_edit",
+     * )
+     */
+    public function edit(Request $request, Post $post, PostRepository $postRepository): Response
+    {
+        $form = $this->createForm(PostType::class, $post, ['method' => 'PUT']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $postRepository->save($post);
+
+            $this->addFlash('success', 'message_updated_successfully');
+
+            return $this->redirectToRoute('post_index');
+        }
+
+        return $this->render(
+            'post/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'post' => $post,
+            ]
+        );
+    }
+
+    /**
+     * Delete action.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
+     * @param \App\Entity\Post                      $post           Post entity
+     * @param \App\Repository\PostRepository        $postRepository Post repository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @Route(
+     *     "/{id}/delete",
+     *     methods={"GET", "DELETE"},
+     *     requirements={"id": "[1-9]\d*"},
+     *     name="post_delete",
+     * )
+     */
+    public function delete(Request $request, Post $post, PostRepository $postRepository): Response
+    {
+        $form = $this->createForm(PostType::class, $post, ['method' => 'DELETE']);
+        $form->handleRequest($request);
+
+        if ($request->isMethod('DELETE') && !$form->isSubmitted()) {
+            $form->submit($request->request->get($form->getName()));
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $postRepository->delete($post);
+            $this->addFlash('success', 'message.deleted_successfully');
+
+            return $this->redirectToRoute('post_index');
+        }
+
+        return $this->render(
+            'post/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'post' => $post,
+            ]
         );
     }
 }

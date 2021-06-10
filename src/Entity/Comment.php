@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Post.
@@ -31,6 +33,13 @@ class Comment
      * @var string
      *
      * @ORM\Column(type="string", length=32)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min="3",
+     *     max="32",
+     * )
      */
     private $nick;
 
@@ -40,6 +49,10 @@ class Comment
      * @var string
      *
      * @ORM\Column(type="string", length=128)
+     *
+     * @Assert\Email(
+     *     checkMX = true
+     * )
      */
     private $email;
 
@@ -49,6 +62,13 @@ class Comment
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min="3",
+     *     max="255",
+     * )
      */
     private $content;
 
@@ -58,6 +78,10 @@ class Comment
      * @var DateTimeInterface
      *
      * @ORM\Column(type="datetime")
+     *
+     * @Gedmo\Timestampable(on="create")
+     *
+     *
      */
     private $createdAt;
 

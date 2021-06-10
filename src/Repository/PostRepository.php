@@ -1,4 +1,7 @@
 <?php
+/**
+ * Post repository.
+ */
 
 namespace App\Repository;
 
@@ -8,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
+ * Class PostRepository.
+ *
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
  * @method Post|null findOneBy(array $criteria, array $orderBy = null)
  * @method Post[]    findAll()
@@ -57,5 +62,33 @@ class PostRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('post');
+    }
+
+    /**
+     * Save record.
+     *
+     * @param \App\Entity\Post $post Post entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Post $post): void
+    {
+        $this->_em->persist($post);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete record.
+     *
+     * @param \App\Entity\Post $post Post entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Post $post): void
+    {
+        $this->_em->remove($post);
+        $this->_em->flush();
     }
 }

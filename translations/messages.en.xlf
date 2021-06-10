@@ -70,6 +70,86 @@
                 <source>label_category</source>
                 <target>Category</target>
             </trans-unit>
+            <trans-unit id="title_comment_create">
+                <source>title_comment_create</source>
+                <target>Create comment</target>
+            </trans-unit>
+            <trans-unit id="action_save">
+                <source>action_save</source>
+                <target>Save</target>
+            </trans-unit>
+            <trans-unit id="label_email">
+                <source>label_email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="title_category_create">
+                <source>title_category_create</source>
+                <target>Create category</target>
+            </trans-unit>
+            <trans-unit id="title_post_create">
+                <source>title_post_create</source>
+                <target>Create post</target>
+            </trans-unit>
+            <trans-unit id="title_category_edit">
+                <source>title_category_edit</source>
+                <target>Edit category</target>
+            </trans-unit>
+            <trans-unit id="title_category_delete">
+                <source>title_category_delete</source>
+                <target>Delete category</target>
+            </trans-unit>
+            <trans-unit id="title_comment_delete">
+                <source>title_comment_delete</source>
+                <target>Delete comment</target>
+            </trans-unit>
+            <trans-unit id="title_post_edit">
+                <source>title_post_edit</source>
+                <target>Edit post</target>
+            </trans-unit>
+            <trans-unit id="title_post_delete">
+                <source>title_post_delete</source>
+                <target>Delete post</target>
+            </trans-unit>
+            <trans-unit id="label_view">
+                <source>label_view</source>
+                <target>View</target>
+            </trans-unit>
+            <trans-unit id="label_edit">
+                <source>label_edit</source>
+                <target>Edit</target>
+            </trans-unit>
+            <trans-unit id="label_delete">
+                <source>label_delete</source>
+                <target>Delete</target>
+            </trans-unit>
+            <trans-unit id="action_create">
+                <source>action_create</source>
+                <target>Create</target>
+            </trans-unit>
+            <trans-unit id="action_delete">
+                <source>action_delete</source>
+                <target>Delete</target>
+            </trans-unit>
+            <trans-unit id="create_new_category">
+                <source>create_new_category</source>
+                <target>Create new category</target>
+            </trans-unit>
+            <trans-unit id="add_comment">
+                <source>add_comment</source>
+                <target>Add comment</target>
+            </trans-unit>
+            <trans-unit id="create_new_post">
+                <source>create_new_post</source>
+                <target>Create new post</target>
+            </trans-unit>
+            <trans-unit id="message.empty_list">
+                <source>message.empty_list</source>
+                <target>The list is empty</target>
+            </trans-unit>
+            <trans-unit id="message_form_error">
+                <source>message_form_error</source>
+                <target>Form error</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

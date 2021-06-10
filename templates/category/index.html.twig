@@ -28,9 +28,21 @@
                     <td>{{ category.id }}</td>
                     <td>{{ category.title }}</td>
                     <td>
-                        <a href="{{ url('category_show', {id: category.id}) }}" title="view">
-                            View
+                        <a href="{{ url('category_show', {id: category.id}) }}" title="{{ 'label_view'|trans }}">
+                            {{ 'label_view'|trans }}
                         </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('category_edit', {id: category.id}) }}" title="{{ 'label_edit'|trans }}">
+                            {{ 'label_edit'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if not category.posts|length %}
+                            <a href="{{ url('category_delete', {id: category.id}) }}" title="{{ 'label_delete'|trans }}">
+                                {{ 'label_delete'|trans }}
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -43,7 +55,13 @@
 
     {% else %}
         <p>
-            {{ 'message_empty_list'|trans }}
+            {% include 'default/_single_flash_message.html.twig' with {
+                type: 'warning',
+                message: 'message.empty_list'|trans
+            } %}
         </p>
     {% endif %}
+        <a href="{{ url('category_create')}}" title="create">
+            {{ 'create_new_category'|trans }}
+        </a>
 {% endblock %}

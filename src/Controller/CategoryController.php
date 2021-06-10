@@ -6,6 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,4 +71,127 @@ class CategoryController extends AbstractController
             ['category' => $category]
         );
     }
+
+    /**
+     * Create action.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
+     * @param \App\Repository\CategoryRepository        $categoryRepository Category repository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @Route(
+     *     "/create",
+     *     methods={"GET", "POST"},
+     *     name="category_create",
+     * )
+     */
+    public function create(Request $request, CategoryRepository $categoryRepository): Response
+    {
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $categoryRepository->save($category);
+
+            $this->addFlash('success', 'message_created_successfully');
+
+            return $this->redirectToRoute('category_index');
+        }
+
+        return $this->render(
+            'category/create.html.twig',
+            ['form' => $form->createView()]
+        );
+    }
+
+    /**
+     * Edit action.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
+     * @param \App\Entity\Category                      $category           Category entity
+     * @param \App\Repository\CategoryRepository        $categoryRepository Category repository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @Route(
+     *     "/{id}/edit",
+     *     methods={"GET", "PUT"},
+     *     requirements={"id": "[1-9]\d*"},
+     *     name="category_edit",
+     * )
+     */
+    public function edit(Request $request, Category $category, CategoryRepository $categoryRepository): Response
+    {
+        $form = $this->createForm(CategoryType::class, $category, ['method' => 'PUT']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $categoryRepository->save($category);
+
+            $this->addFlash('success', 'message_updated_successfully');
+
+            return $this->redirectToRoute('category_index');
+        }
+
+        return $this->render(
+            'category/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'category' => $category,
+            ]
+        );
+    }
+
+    /**
+     * Delete action.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
+     * @param \App\Entity\Category                      $category           Category entity
+     * @param \App\Repository\CategoryRepository        $categoryRepository Category repository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @Route(
+     *     "/{id}/delete",
+     *     methods={"GET", "DELETE"},
+     *     requirements={"id": "[1-9]\d*"},
+     *     name="category_delete",
+     * )
+     */
+    public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
+    {
+        $form = $this->createForm(CategoryType::class, $category, ['method' => 'DELETE']);
+        $form->handleRequest($request);
+
+        if ($request->isMethod('DELETE') && !$form->isSubmitted()) {
+            $form->submit($request->request->get($form->getName()));
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $categoryRepository->delete($category);
+            $this->addFlash('success', 'message.deleted_successfully');
+
+            return $this->redirectToRoute('category_index');
+        }
+
+        return $this->render(
+            'category/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'category' => $category,
+            ]
+        );
+    }
+
 }

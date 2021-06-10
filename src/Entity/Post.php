@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Post.
@@ -30,12 +33,30 @@ class Post
      *
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=2048)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min="3",
+     *     max="2048",
+     * )
      */
     private $content;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * Title.
+     *
+     * @var string
+     *
+     * @ORM\Column(type="string", length=64)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min="3",
+     *     max="64",
+     * )
      */
     private $title;
 
@@ -45,6 +66,8 @@ class Post
      * @var DateTimeInterface
      *
      * @ORM\Column(type="datetime")
+     *
+     * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
