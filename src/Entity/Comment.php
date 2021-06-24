@@ -1,4 +1,7 @@
 <?php
+/**
+ * Comment entity.
+ */
 
 namespace App\Entity;
 
@@ -9,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Post.
+ * Class Comment.
  *
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  * @ORM\Table(name="comments")
@@ -84,6 +87,16 @@ class Comment
      *
      */
     private $createdAt;
+
+    /**
+     * Post.
+     *
+     * @var \App\Entity\Post
+     *
+     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $post;
 
     /**
      * Getter for Id.
@@ -173,5 +186,17 @@ class Comment
     public function setCreatedAt(DateTimeInterface $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
+
+        return $this;
     }
 }

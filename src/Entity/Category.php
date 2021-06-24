@@ -1,4 +1,7 @@
 <?php
+/**
+ * Category entity.
+ */
 
 namespace App\Entity;
 
@@ -52,6 +55,11 @@ class Category
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="category")
      */
     private $posts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $author;
 
     public function __construct()
     {
@@ -126,5 +134,17 @@ class Category
                 $post->setCategory(null);
             }
         }
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }

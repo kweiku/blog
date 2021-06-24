@@ -8,14 +8,9 @@
     <h1>{{ 'title_post_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
-        <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label_id'|trans, 'post.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_title'|trans, 'post.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_created_at'|trans, 'post.createdAt') }}</th>
                 <th>{{ 'label_category'|trans }}</th>
@@ -27,24 +22,33 @@
             <tbody>
             {% for post in pagination.items %}
                 <tr>
-                    <td>{{ post.id }}</td>
                     <td>{{ post.title }}</td>
                     <td>{{ post.createdAt|date('Y/m/d') }}</td>
-                    <td>{{ post.category.title }}</td>
                     <td>
+                        <a href="{{ url('post_index', {'filters.category_id' : post.category.id}) }}" title="{{ post.category.title }}">
+                            {{ post.category.title }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if is_granted('VIEW', post) %}
                         <a href="{{ url('post_show', {id: post.id}) }}" title="{{ 'label_view'|trans }}">
                             {{ 'label_view'|trans }}
                         </a>
+                        {% endif %}
                     </td>
                     <td>
+                        {% if is_granted('EDIT', post) %}
                         <a href="{{ url('post_edit', {id: post.id}) }}" title="{{ 'label_edit'|trans }}">
                             {{ 'label_edit'|trans }}
                         </a>
+                        {% endif %}
                     </td>
                     <td>
+                        {% if is_granted('DELETE', post) %}
                         <a href="{{ url('post_delete', {id: post.id}) }}" title="{{ 'label_delete'|trans }}">
                             {{ 'label_delete'|trans }}
                         </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -63,7 +67,11 @@
             } %}
         </p>
     {% endif %}
-        <a href="{{ url('post_create')}}" title="create">
-            {{ 'create_new_post'|trans }}
-        </a>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <button>
+            <a href="{{ url('post_create')}}" title="create">
+                {{ 'create_new_post'|trans }}
+            </a>
+        </button>
+    {% endif %}
 {% endblock %}
