@@ -1,10 +1,19 @@
-{% include 'default/_form.html.twig' with {
-    page_title: 'title_category_create',
-    attr: {
-        method: 'POST',
-        action: url('category_create')
-    },
-    form: form,
-    submit_label: 'action_create'|trans,
-    back_to_list_path: 'category_index',
-} %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_category_create'|trans }}
+{% endblock %}
+
+{% block body %}
+    {{ include('menu.html.twig') }}
+    {% include 'default/_form.html.twig' with {
+        page_title: 'title_category_create',
+        attr: {
+            method: 'POST',
+            action: url('category_create')
+        },
+        form: form,
+        submit_label: 'action_create'|trans,
+        back_to_list_path: 'category_index',
+    } %}
+{% endblock %}

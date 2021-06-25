@@ -6,21 +6,11 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+            <link href="https://fonts.googleapis.com/css?family=Bungee+Inline&display=swap" rel="stylesheet">
         {% endblock %}
     </head>
     <body>
     <div class="container-fluid">
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <div>{{ app.user.email }}</div>
-            <div>
-                <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
-            </div>
-        {% else %}
-            <div>
-                <a href="{{ url('app_login') }}">{{ 'action_login'|trans }}</a>
-            </div>
-        {% endif %}
-
         {% include 'default/_flash_messages.html.twig' %}
         {% block body %}{% endblock %}
     </div>

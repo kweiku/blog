@@ -11,7 +11,6 @@ use App\Service\PostService;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -115,11 +114,6 @@ class PostController extends AbstractController
      *     methods={"GET", "POST"},
      *     name="post_create",
      * )
-     *
-     * @IsGranted(
-     *     "CREATE",
-     *     subject="post",
-     * )
      */
     public function create(Request $request): Response
     {
@@ -128,6 +122,7 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $post->setAuthor($this->getUser());
             $this->postService->save($post);
             $this->addFlash('success', 'message_created_successfully');
 

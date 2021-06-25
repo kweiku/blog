@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title_post_details'|trans({'%id%': post.id|default('')}) }}</h1>
+    {{ include('menu.html.twig') }}
+    <h2>{{ 'title_post_details'|trans({'%id%': post.id|default('')}) }}</h2>
     {% if post is defined and post|length %}
         <dl>
             <dt>{{ 'label_title'|trans }}</dt>

@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title_comment_list'|trans }}</h1>
+    {{ include('menu.html.twig') }}
+    <h2>{{ 'title_comment_list'|trans }}</h2>
+    <button>
+        <a href="{{ url('comment_create')}}" title="create">
+            {{ 'add_comment'|trans }}
+        </a>
+    </button>
+    <br>
     {% if pagination is defined and pagination.items|length %}
 
         <table class="table table-striped">
@@ -56,9 +63,4 @@
             } %}
         </p>
     {% endif %}
-    <button>
-        <a href="{{ url('comment_create')}}" title="create">
-            {{ 'add_comment'|trans }}
-        </a>
-    </button>
 {% endblock %}

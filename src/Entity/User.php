@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Class user.
+ *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(
  *     name="users",
@@ -92,6 +94,29 @@ class User implements UserInterface
      * @SecurityAssert\UserPassword
      */
     private $password;
+
+    /**
+     * Firstname.
+     *
+     * @ORM\Column(
+     *     type="string",
+     *     length=64,
+     *     nullable=true
+     * )
+     */
+    private $firstname;
+
+    /**
+     * Lastname.
+     *
+     * @ORM\Column(
+     *     type="string",
+     *     length=128,
+     *     nullable=true
+     * )
+     */
+    private $lastname;
+
 
     /**
      * Getter for the Id.
@@ -184,6 +209,8 @@ class User implements UserInterface
     }
 
     /**
+     * Getter for the salt.
+     *
      * @see UserInterface
      */
     public function getSalt()
@@ -192,6 +219,8 @@ class User implements UserInterface
     }
 
     /**
+     * Erase.
+     *
      * @see UserInterface
      */
     public function eraseCredentials()
@@ -199,4 +228,45 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    /**
+     * Getter for the firstname.
+     *
+     * @return string|null Firstname
+     */
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Setter for the firstname.
+     *
+     * @param string|null $firstname Firstname
+     */
+    public function setFirstname(?string $firstname): void
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * Getter for the lastname.
+     *
+     * @return string|null Lastname
+     */
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Setter for the lastname.
+     *
+     * @param string|null $lastname Lastname
+     */
+    public function setLastname(?string $lastname): void
+    {
+        $this->lastname = $lastname;
+    }
+
 }

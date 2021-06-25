@@ -106,11 +106,6 @@ class CommentController extends AbstractController
      *     methods={"GET", "POST"},
      *     name="comment_create",
      * )
-     *
-     * @IsGranted(
-     *     "CREATE",
-     *     subject="category",
-     * )
      */
     public function create(Request $request): Response
     {

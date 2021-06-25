@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title_category_list'|trans }}</h1>
+    {{ include('menu.html.twig') }}
+    <h2>{{ 'title_category_list'|trans }}</h2>
     {% if pagination is defined and pagination.items|length %}
 
         <table class="table table-striped">
@@ -60,12 +61,5 @@
                 message: 'message.empty_list'|trans
             } %}
         </p>
-    {% endif %}
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <button>
-                <a href="{{ url('category_create')}}" title="create">
-                    {{ 'create_new_category'|trans }}
-                </a>
-            </button>
     {% endif %}
 {% endblock %}

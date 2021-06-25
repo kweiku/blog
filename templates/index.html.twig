@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_index'|trans }}
+{% endblock %}
+
+{% block body %}
+    {{ include('menu.html.twig') }}
+    <div id="art">
+        <article id="artindex">
+            <h2><b>Witaj!</b></h2>
+            <p>
+                To mój blog osobisty!<br>
+                Opisuję tutaj swoje życie, przygody i przemyślenia.<br>
+                Zapraszam Cię na wspaniałą podróż po moim świecie!<br>
+                <br>
+                <b>O mnie:</b><br>
+                Jestem wolnym duchem, żyję z dnia na dzień i codziennie odkrywam nowe rzeczy, nie bojąc się spojrzeć w nieznane.<br>
+                Zaparz herbatę, owiń się kocykiem i zanurz się w moją opowieść...
+                <br>
+            </p>
+        </article>
+    </div>
+{% endblock %}

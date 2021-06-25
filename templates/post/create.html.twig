@@ -1,10 +1,19 @@
-{% include 'default/_form.html.twig' with {
-    page_title: 'title_post_create',
-    attr: {
-        method: 'POST',
-        action: url('post_create')
-    },
-    form: form,
-    submit_label: 'action_create'|trans,
-    back_to_list_path: 'post_index',
-} %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_post_create'|trans }}
+{% endblock %}
+
+{% block body %}
+    {{ include('menu.html.twig') }}
+    {% include 'default/_form.html.twig' with {
+        page_title: 'title_post_create',
+        attr: {
+            method: 'POST',
+            action: url('post_create')
+        },
+        form: form,
+        submit_label: 'action_create'|trans,
+        back_to_list_path: 'post_index',
+    } %}
+{% endblock %}

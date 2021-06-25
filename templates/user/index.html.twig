@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_users_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    {{ include('menu.html.twig') }}
+    <h2>{{ 'title_users_list'|trans }}</h2>
+    {% if is_granted('ROLE_ADMIN') %}
+        {% if pagination is defined and pagination.items|length %}
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(pagination, 'label_id'|trans, 'users.id') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label_firstname'|trans, 'users.firstname') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label_lastname'|trans, 'users.lastname') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label_email'|trans, 'users.email') }}</th>
+                    <th>{{ 'label_actions'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for users in pagination.items %}
+                    <tr>
+                        <td>{{ users.id }}</td>
+                        <td>{{ users.firstname }}</td>
+                        <td>{{ users.lastname }}</td>
+                        <td>{{ users.email }}</td>
+                        <td>
+                            <a href="{{ url('users_show', {id: users.id}) }}" title="{{ 'label_view'|trans }}">
+                                &#128269;{{ 'label_view'|trans }}
+                            </a>
+                            <a href="{{ url('users_edit', {id: users.id}) }}" title="{{ 'label_edit'|trans }}" id="op">
+                                &#128736;{{ 'label_edit'|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+        {% else %}
+            <p>
+                {{ 'message_empty_list'|trans }}
+            </p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

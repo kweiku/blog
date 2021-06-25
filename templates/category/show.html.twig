@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title_category_details'|trans({'%id%': category.id|default('')}) }}</h1>
+    {{ include('menu.html.twig') }}
+    <h2>{{ 'title_category_details'|trans({'%id%': category.id|default('')}) }}</h2>
     {% if category is defined and category|length %}
         <dl>
             <dt>{{ 'label_title'|trans }}</dt>

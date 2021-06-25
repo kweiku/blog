@@ -1,19 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title_post_edit'|trans({'%id%': post.id|default('')}) }}
+    {{ 'title_user_edit'|trans({'%id%': user.id|default('')}) }}
 {% endblock %}
 
 {% block body %}
     {{ include('menu.html.twig') }}
     {% include 'default/_form.html.twig' with {
-        page_title: 'title_post_edit',
-        page_title_param: {'%id%': post.id},
+        page_title: 'title_user_edit',
+        page_title_param: {'%id%': users.id},
         attr: {
             method: 'PUT',
-            action: url('post_edit', {'id': post.id}),
+            action: url('users_edit', {'id': users.id}),
         },
         form: form,
+        submit_label: 'action_edited'|trans,
         message: 'message_updated_successfully'|trans,
         back_to_list_path: 'post_index',
     } %}

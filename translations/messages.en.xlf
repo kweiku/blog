@@ -28,27 +28,27 @@
             </trans-unit>
             <trans-unit id="title_category_list">
                 <source>title_category_list</source>
-                <target>Category list</target>
+                <target>Categories</target>
             </trans-unit>
             <trans-unit id="title_category_details">
                 <source>title_category_details</source>
-                <target>Category details #%id%</target>
+                <target>Category details</target>
             </trans-unit>
             <trans-unit id="title_post_list">
                 <source>title_post_list</source>
-                <target>Post list</target>
+                <target>Newest posts</target>
             </trans-unit>
             <trans-unit id="title_post_details">
                 <source>title_post_details</source>
-                <target>Post details #%id%</target>
+                <target>Post details</target>
             </trans-unit>
             <trans-unit id="title_comment_list">
                 <source>title_comment_list</source>
-                <target>Comment list</target>
+                <target>Comments</target>
             </trans-unit>
             <trans-unit id="title_comment_details">
                 <source>title_comment_details</source>
-                <target>Comment details #%id%</target>
+                <target>Comment details</target>
             </trans-unit>
             <trans-unit id="message_empty_list">
                 <source>message_empty_list</source>
@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="create_new_category">
                 <source>create_new_category</source>
-                <target>Create new category</target>
+                <target>Create new</target>
             </trans-unit>
             <trans-unit id="add_comment">
                 <source>add_comment</source>
@@ -140,7 +140,7 @@
             </trans-unit>
             <trans-unit id="create_new_post">
                 <source>create_new_post</source>
-                <target>Create new post</target>
+                <target>Create new</target>
             </trans-unit>
             <trans-unit id="message.empty_list">
                 <source>message.empty_list</source>
@@ -173,6 +173,62 @@
             <trans-unit id="action_logout">
                 <source>action_logout</source>
                 <target>Log out</target>
+            </trans-unit>
+            <trans-unit id="title_index">
+                <source>title_index</source>
+                <target>My personal blog</target>
+            </trans-unit>
+            <trans-unit id="label_index">
+                <source>label_index</source>
+                <target>Main page</target>
+            </trans-unit>
+            <trans-unit id="label_firstname">
+                <source>label_firstname</source>
+                <target>First name</target>
+            </trans-unit>
+            <trans-unit id="label_lastname">
+                <source>label_lastname</source>
+                <target>Last name</target>
+            </trans-unit>
+            <trans-unit id="title_user_details">
+                <source>title_user_details</source>
+                <target>User details</target>
+            </trans-unit>
+            <trans-unit id="title_users_list">
+                <source>title_users_list</source>
+                <target>User list</target>
+            </trans-unit>
+            <trans-unit id="button_back">
+                <source>button_back</source>
+                <target>Back</target>
+            </trans-unit>
+            <trans-unit id="title_user_edit">
+                <source>title_user_edit</source>
+                <target>Edit your data</target>
+            </trans-unit>
+            <trans-unit id="action_edited">
+                <source>action_edited</source>
+                <target>Edit</target>
+            </trans-unit>
+            <trans-unit id="label_new_firstname">
+                <source>label_new_firstname</source>
+                <target>New first name</target>
+            </trans-unit>
+            <trans-unit id="label_new_lastname">
+                <source>label_new_lastname</source>
+                <target>New last name</target>
+            </trans-unit>
+            <trans-unit id="label_new_email">
+                <source>label_new_email</source>
+                <target>New e-mail</target>
+            </trans-unit>
+            <trans-unit id="label_new_password">
+                <source>label_new_password</source>
+                <target>New password</target>
+            </trans-unit>
+            <trans-unit id="label_new_password_repeat">
+                <source>label_new_password_repeat</source>
+                <target>Repeat new password</target>
             </trans-unit>
         </body>
     </file>

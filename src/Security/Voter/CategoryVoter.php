@@ -42,7 +42,7 @@ class CategoryVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['VIEW', 'EDIT', 'DELETE', 'CREATE'])
+        return in_array($attribute, ['VIEW', 'EDIT', 'DELETE'])
             && $subject instanceof Category;
     }
 
@@ -69,7 +69,6 @@ class CategoryVoter extends Voter
             case 'VIEW':
             case 'EDIT':
             case 'DELETE':
-            case 'CREATE':
             if ($subject->getAuthor() === $user) {
                 return true;
             }

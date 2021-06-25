@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title_comment_details'|trans({'%id%': comment.id|default('')}) }}</h1>
+    {{ include('menu.html.twig') }}
+    <h2>{{ 'title_comment_details'|trans({'%id%': comment.id|default('')}) }}</h2>
     {% if comment is defined and comment|length %}
         <dl>
             <dt>{{ 'label_nick'|trans }}</dt>

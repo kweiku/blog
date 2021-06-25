@@ -106,11 +106,6 @@ class CategoryController extends AbstractController
      *     methods={"GET", "POST"},
      *     name="category_create",
      * )
-     *
-     * @IsGranted(
-     *     "CREATE",
-     *     subject="category",
-     * )
      */
     public function create(Request $request): Response
     {
@@ -119,6 +114,7 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $category->setAuthor($this->getUser());
             $this->categoryService->save($category);
             $this->addFlash('success', 'message_created_successfully');
 

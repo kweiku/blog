@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_user_details'|trans({'%id%': users.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    {{ include('menu.html.twig') }}
+    <h2>{{ 'title_user_details'|trans({'%id%': users.id|default('')}) }}</h2>
+    {% if users is defined and users|length %}
+        <dl>
+            <dt>{{ 'label_id'|trans }}</dt>
+            <dd>{{ users.id }}</dd>
+            <dt>{{ 'label_firstname'|trans }}</dt>
+            <dd>{{ users.firstname }}</dd>
+            <dt>{{ 'label_lastname'|trans }}</dt>
+            <dd>{{ users.lastname }}</dd>
+            <dt>{{ 'label_email'|trans }}</dt>
+            <dd>{{ users.email }}</dd>
+        </dl>
+        <p>
+                <a href="{{ url('post_index') }}" title="back to the list">
+                    {{ 'button_back'|trans }}
+                </a>
+        </p>
+    {% else %}
+        <p>
+            {{ 'message_item_not_found'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

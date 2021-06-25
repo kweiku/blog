@@ -18,9 +18,9 @@ parameters:
 
 {% block body %}
 
-    <h1>
+    <h2>
         {% if page_title_param is defined %}{{ page_title|trans(page_title_param) }}{% else %}{{ page_title|trans }}{% endif %}
-    </h1>
+    </h2>
 
     {{ form_start(form, { method: attr.method|default('POST'), action: attr.action }) }}
     {% if false == form.vars.valid %}

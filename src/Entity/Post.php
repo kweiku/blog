@@ -99,7 +99,7 @@ class Post
      *
      * @var \App\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -200,6 +200,8 @@ class Post
     }
 
     /**
+     * Getter for comments.
+     *
      * @return Collection|Comment[]
      */
     public function getComments(): Collection
@@ -207,37 +209,51 @@ class Post
         return $this->comments;
     }
 
-    public function addComment(Comment $comment): self
+    /**
+     * Add comment.
+     *
+     * @param Comment $comment
+     *
+     */
+    public function addComment(Comment $comment): void
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
             $comment->setPost($this);
         }
-
-        return $this;
     }
 
-    public function removeComment(Comment $comment): self
+    /**
+     * Remove comment.
+     *
+     * @param Comment $comment
+     */
+    public function removeComment(Comment $comment): void
     {
         if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
             if ($comment->getPost() === $this) {
                 $comment->setPost(null);
             }
         }
-
-        return $this;
     }
 
+    /**
+     * Getter for author.
+     *
+     * @return User|null
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    /**
+     * Setter for author.
+     *
+     * @param User|null $author
+     */
+    public function setAuthor(?User $author): void
     {
         $this->author = $author;
-
-        return $this;
     }
 }

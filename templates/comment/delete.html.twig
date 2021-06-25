@@ -1,11 +1,20 @@
-{% include 'default/_form.html.twig' with {
-    page_title: 'title_comment_delete',
-    page_title_param: {'%id%': comment.id},
-    attr: {
-        method: 'DELETE',
-        action: url('comment_delete', {'id': comment.id}),
-    },
-    form: form,
-    submit_label: 'action_delete'|trans,
-    back_to_list_path: 'comment_index',
-} %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_comment_delete'|trans({'%id%': comment.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    {{ include('menu.html.twig') }}
+    {% include 'default/_form.html.twig' with {
+        page_title: 'title_comment_delete',
+        page_title_param: {'%id%': comment.id},
+        attr: {
+            method: 'DELETE',
+            action: url('comment_delete', {'id': comment.id}),
+        },
+        form: form,
+        submit_label: 'action_delete'|trans,
+        back_to_list_path: 'comment_index',
+    } %}
+{% endblock %}

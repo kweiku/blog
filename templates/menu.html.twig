@@ -1,0 +1,81 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+{% endblock %}
+{% block body %}
+    {% block header %}
+        <h1>{{ 'title_index'|trans }}</h1>
+    {% endblock %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div id="menu">
+            <nav>
+                <ul>
+                    <li id="main">
+                        <a href="{{ url('index') }}" title="Main page">{{ 'label_index'|trans }}</a>
+                    </li>
+
+                    <li id="category">{{ 'title_category_list'|trans }}
+                        <ul class="pod">
+                            <li><a href="{{ url('category_index') }}" title="Category list">{{ 'label_view'|trans }}</a></li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="{{ url('category_create') }}" title="Create new category">{{ 'create_new_category'|trans }}</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                    <li id="post">{{ 'title_post_list'|trans }}
+                        <ul class="pod">
+                            <li><a href="{{ url('post_index') }}" title="Post list">{{ 'label_view'|trans }}</a></li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="{{ url('post_create') }}" title="Create new post">{{ 'create_new_post'|trans }}</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <div id="sign">
+                    {% if app.user %}
+                        <li id="log">
+                            <a href="{{ url('users_show', {id: app.user.id}) }}" title="show user">{{ app.user.username }}</a>
+                                <ul class="pod">
+                                    <li><a href="{{ url('users_edit', {id: app.user.id}) }}">{{ 'label_edit'|trans }}</a></li>
+                                    <li><a href="{{ path('app_logout') }}">{{ 'action_logout'|trans }}</a></li>
+                                </ul>
+                        </li>
+                    </div>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% else %}
+        <div id="menu">
+            <nav>
+                <ul>
+                    <li id="main">
+                        <a href="{{ url('index') }}" title="Main page">{{ 'label_index'|trans }}</a>
+                    </li>
+
+                    <li id="category">{{ 'title_category_list'|trans }}
+                        <ul class="pod">
+                            <li><a href="{{ url('category_index') }}" title="Category list">{{ 'label_view'|trans }}</a></li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="{{ url('category_create') }}" title="Create new category">{{ 'create_new_category'|trans }}</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                    <li id="post">{{ 'title_post_list'|trans }}
+                        <ul class="pod">
+                            <li><a href="{{ url('post_index') }}" title="Post list">{{ 'label_view'|trans }}</a></li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="{{ url('post_create') }}" title="Create new post">{{ 'create_new_post'|trans }}</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ url('app_login') }}" title="Log in">{{ 'action_login'|trans }}</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+    <br>
+{% endblock %}

@@ -44,6 +44,34 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
+     * Save post.
+     *
+     * @param \App\Entity\Post $post Post entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Post $post): void
+    {
+        $this->_em->persist($post);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete post.
+     *
+     * @param \App\Entity\Post $post Post entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Post $post): void
+    {
+        $this->_em->remove($post);
+        $this->_em->flush();
+    }
+
+    /**
      * Query all records.
      *
      * @param array $filters Filters array
@@ -98,7 +126,7 @@ class PostRepository extends ServiceEntityRepository
      * Query posts by author.
      *
      * @param \App\Entity\User $user User entity
-     * @param array $filters Filters array
+     * @param array  $filters Filters array
      *
      * @return \Doctrine\ORM\QueryBuilder Query builder
      */
@@ -123,33 +151,5 @@ class PostRepository extends ServiceEntityRepository
         $queryBuilder = $this->queryAll($filters);
 
         return $queryBuilder;
-    }
-
-    /**
-     * Save record.
-     *
-     * @param \App\Entity\Post $post Post entity
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function save(Post $post): void
-    {
-        $this->_em->persist($post);
-        $this->_em->flush();
-    }
-
-    /**
-     * Delete record.
-     *
-     * @param \App\Entity\Post $post Post entity
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function delete(Post $post): void
-    {
-        $this->_em->remove($post);
-        $this->_em->flush();
     }
 }

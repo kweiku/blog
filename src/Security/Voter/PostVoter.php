@@ -1,7 +1,8 @@
 <?php
 /**
- * Task security voter.
+ * Post security voter.
  */
+
 namespace App\Security\Voter;
 
 use App\Entity\Post;
@@ -42,7 +43,7 @@ class PostVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['VIEW', 'EDIT', 'DELETE', 'CREATE'])
+        return in_array($attribute, ['VIEW', 'EDIT', 'DELETE'])
             && $subject instanceof Post;
     }
 
@@ -69,7 +70,6 @@ class PostVoter extends Voter
             case 'VIEW':
             case 'EDIT':
             case 'DELETE':
-            case 'CREATE':
                 if ($subject->getAuthor() === $user) {
                     return true;
                 }
@@ -78,7 +78,7 @@ class PostVoter extends Voter
                 return false;
                 break;
         }
-        //false - znikaja
+
         return false;
     }
 }
