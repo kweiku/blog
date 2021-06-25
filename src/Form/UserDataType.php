@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Userdata type.
  */
@@ -55,12 +54,6 @@ class UserDataType extends AbstractType
             'type' => PasswordType::class,
             'first_options' => ['label' => 'label_new_password'],
             'second_options' => ['label' => 'label_new_password_repeat'],
-            'constraints' => [
-                new Length([
-                    'min' => 8,
-                    'max' => 20,
-                ]),
-            ],
         ]);
     }
 

@@ -13,9 +13,7 @@
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label_title'|trans, 'category.title') }}</th>
-                <th scope="col">
-                    {{ 'label_actions'|trans }}
-                </th>
+                {% if is_granted('ROLE_ADMIN') %}<th>{{ 'label_actions'|trans }}</th>{% endif %}
             </tr>
             </thead>
             <tbody>
@@ -24,7 +22,7 @@
                     <td>{{ category.title }}</td>
                     <td>
                         {% if is_granted('VIEW', category) %}
-                        <a href="{{ url('category_show', {id: category.id}) }}" title="{{ 'label_view'|trans }}">
+                        <a href="{{ url('post_index', {id: category.id}) }}" title="{{ 'label_view'|trans }}">
                             {{ 'label_view'|trans }}
                         </a>
                         {% endif %}

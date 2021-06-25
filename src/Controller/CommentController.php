@@ -55,8 +55,13 @@ class CommentController extends AbstractController
      */
     public function index(Request $request): Response
     {
-            $page = $request->query->getInt('page', 1);
-            $pagination = $this->commentService->createPaginatedList($page);
+        $filters = [];
+        $filters['post_id'] = $request->query->getInt('filters_post_id');
+
+        $pagination = $this->commentService->createPaginatedList(
+            $request->query->getInt('page', 1),
+            $filters
+        );
 
         return $this->render(
             'comment/index.html.twig',

@@ -6,6 +6,8 @@
 namespace App\Form;
 
 use App\Entity\Comment;
+use App\Entity\Post;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -56,6 +58,19 @@ class CommentType extends AbstractType
                     'label' => 'label_content',
                     'required' => true,
                     'attr' => ['max_length' => 255],
+                ]
+            )
+            ->add(
+                'post',
+                EntityType::class,
+                [
+                    'class' => Post::class,
+                    'choice_label' => function ($post) {
+                        return $post->getTitle();
+                    },
+                    'label' => 'label_post',
+                    'required' => true,
+                    'multiple' => false,
                 ]
             );
     }

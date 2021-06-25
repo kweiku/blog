@@ -63,6 +63,7 @@ class PostController extends AbstractController
 
         $pagination = $this->postService->createPaginatedList(
             $request->query->getInt('page', 1),
+            //$this->getUser(),
             $filters
         );
 

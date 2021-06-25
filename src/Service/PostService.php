@@ -9,6 +9,7 @@ use App\Entity\Post;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class PostService.
@@ -51,7 +52,7 @@ class PostService
     }
 
     /**
-     * Prepare filters for the recipes list.
+     * Prepare filters for the post list.
      *
      * @param array $filters Raw filters from request
      *
@@ -76,7 +77,7 @@ class PostService
      * Create paginated list.
      *
      * @param int $page Page number
-     *
+     * @param \Symfony\Component\Security\Core\User\UserInterface $user User entity
      * @param array $filters Filters array
      *
      * @return \Knp\Component\Pager\Pagination\PaginationInterface Paginated list
@@ -116,5 +117,17 @@ class PostService
     public function delete(Post $post): void
     {
         $this->postRepository->delete($post);
+    }
+
+    /**
+     * Find post by Id.
+     *
+     * @param int $id Post Id
+     *
+     * @return \App\Entity\Post|null Post entity
+     */
+    public function findOneById(int $id): ?Post
+    {
+        return $this->postRepository->findOneById($id);
     }
 }

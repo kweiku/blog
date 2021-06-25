@@ -15,9 +15,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label_title'|trans, 'post.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_created_at'|trans, 'post.createdAt') }}</th>
                 <th>{{ 'label_category'|trans }}</th>
-                <th scope="col">
-                    {{ 'label_actions'|trans }}
-                </th>
+                {% if is_granted('ROLE_ADMIN') %}<th>{{ 'label_actions'|trans }}</th>{% endif %}
             </tr>
             </thead>
             <tbody>

@@ -31,10 +31,16 @@
                             {% endif %}
                         </ul>
                     </li>
+                    <li id="comment">{{ 'title_comment_list'|trans }}
+                        <ul class="pod">
+                            <li><a href="{{ url('comment_index') }}" title="Comment list">{{ 'label_view'|trans }}</a></li>
+                            <li><a href="{{ url('comment_create') }}" title="Create new comment">{{ 'add_comment'|trans }}</a></li>
+                        </ul>
+                    </li>
                     <div id="sign">
                     {% if app.user %}
                         <li id="log">
-                            <a href="{{ url('users_show', {id: app.user.id}) }}" title="show user">{{ app.user.username }}</a>
+                            <a href="{{ url('users_show', {id: app.user.id}) }}" title="show user">{{ app.user.firstname }}</a>
                                 <ul class="pod">
                                     <li><a href="{{ url('users_edit', {id: app.user.id}) }}">{{ 'label_edit'|trans }}</a></li>
                                     <li><a href="{{ path('app_logout') }}">{{ 'action_logout'|trans }}</a></li>
@@ -52,22 +58,16 @@
                     <li id="main">
                         <a href="{{ url('index') }}" title="Main page">{{ 'label_index'|trans }}</a>
                     </li>
-
-                    <li id="category">{{ 'title_category_list'|trans }}
-                        <ul class="pod">
-                            <li><a href="{{ url('category_index') }}" title="Category list">{{ 'label_view'|trans }}</a></li>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <li><a href="{{ url('category_create') }}" title="Create new category">{{ 'create_new_category'|trans }}</a></li>
-                            {% endif %}
-                        </ul>
+                    <li id="category">
+                            <a href="{{ url('category_index') }}" title="Category list">{{ 'title_category_list'|trans }}</a>
                     </li>
-
-                    <li id="post">{{ 'title_post_list'|trans }}
+                    <li id="post">
+                            <a href="{{ url('post_index') }}" title="Post list">{{ 'title_post_list'|trans }}</a>
+                    </li>
+                    <li id="comment">{{ 'title_comment_list'|trans }}
                         <ul class="pod">
-                            <li><a href="{{ url('post_index') }}" title="Post list">{{ 'label_view'|trans }}</a></li>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <li><a href="{{ url('post_create') }}" title="Create new post">{{ 'create_new_post'|trans }}</a></li>
-                            {% endif %}
+                            <li><a href="{{ url('comment_index') }}" title="Comment list">{{ 'label_view'|trans }}</a></li>
+                            <li><a href="{{ url('comment_create') }}" title="Create new comment">{{ 'add_comment'|trans }}</a></li>
                         </ul>
                     </li>
                     <li>

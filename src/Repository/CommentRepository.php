@@ -6,6 +6,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -42,14 +43,70 @@ class CommentRepository extends ServiceEntityRepository
     }
 
     /**
+     * Save comment.
+     *
+     * @param \App\Entity\Comment $comment Comment entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Comment $comment): void
+    {
+        $this->_em->persist($comment);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete comment.
+     *
+     * @param \App\Entity\Comment $comment Comment entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Comment $comment): void
+    {
+        $this->_em->remove($comment);
+        $this->_em->flush();
+    }
+
+    /**
      * Query all records.
+     *
+     * @param array $filters Filter array
      *
      * @return \Doctrine\ORM\QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    public function queryAll(array $filters = []): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder()
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial comment.{id, nick, content, createdAt}',
+                'partial post.{id, title}'
+            )
+            ->join('comment.post', 'post')
             ->orderBy('comment.createdAt', 'DESC');
+        $queryBuilder = $this->applyFiltersToList($queryBuilder, $filters);
+
+        return $queryBuilder;
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder Query builder
+     * @param array $filters Filters array
+     *
+     * @return \Doctrine\ORM\QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
+    {
+        if (isset($filters['post']) && $filters['post'] instanceof Post) {
+            $queryBuilder->andWhere('post = :post')
+                ->setParameter('post', $filters['post']);
+        }
+
+        return $queryBuilder;
     }
 
     /**
@@ -65,30 +122,33 @@ class CommentRepository extends ServiceEntityRepository
     }
 
     /**
-     * Save record.
+     * Query comments by author.
      *
-     * @param \App\Entity\Comment $comment Comment entity
+     * @param \App\Entity\User $user User entity
+     * @param array  $filters Filters array
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @return \Doctrine\ORM\QueryBuilder Query builder
      */
-    public function save(Comment $comment): void
+    public function queryByAuthor(User $user, array $filters = []): QueryBuilder
     {
-        $this->_em->persist($comment);
-        $this->_em->flush();
+        $queryBuilder = $this->queryAll($filters);
+        $queryBuilder->andWhere('comment.author = :author')
+            ->setParameter('author', $user);
+
+        return $queryBuilder;
     }
 
     /**
-     * Delete record.
+     * Query posts only by filters.
      *
-     * @param \App\Entity\Comment $comment Comment entity
+     * @param array $filters
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @return QueryBuilder
      */
-    public function delete(Comment $comment): void
+    public function queryByFilter(array $filters = []): QueryBuilder
     {
-        $this->_em->remove($comment);
-        $this->_em->flush();
+        $queryBuilder = $this->queryAll($filters);
+
+        return $queryBuilder;
     }
 }

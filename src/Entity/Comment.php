@@ -188,15 +188,23 @@ class Comment
         $this->createdAt = $createdAt;
     }
 
+    /**
+     * Getter for post.
+     *
+     * @return Post|null
+     */
     public function getPost(): ?Post
     {
         return $this->post;
     }
 
-    public function setPost(?Post $post): self
+    /**
+     * Setter for post.
+     *
+     * @param Post|null $post
+     */
+    public function setPost(?Post $post): void
     {
         $this->post = $post;
-
-        return $this;
     }
 }

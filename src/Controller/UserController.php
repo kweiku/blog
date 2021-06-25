@@ -16,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserController.
@@ -41,21 +40,14 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        $log = $this->getUser();
-        if ($this->isGranted('ROLE_ADMIN')) {
+        $this->getUser();
             return $this->render('user/show.html.twig', ['users' => $user]);
-        }
-        else {
-            return $this->render('user/show.html.twig', ['users' => $log]);
-        }
     }
 
     /**
      * Edit action.
      *
      * @param Request $request HTTP request
-     * @param User $user User
-     * @param UserRepository $userRepository User Repository
      *
      * @return Response HTTP response
      *
@@ -74,29 +66,24 @@ class UserController extends AbstractController
      *     subject="user",
      * )
      */
-    public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
+        $this->getUser();
         $form = $this->createForm(UserDataType::class, $user, ['method' => 'PUT']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
-
-
-            $userRepository->save($user);
+            $newPassword = $form->get('newPassword')->getData();
+            $userRepository->save($user, $newPassword);
             $this->addFlash('success', 'message_updated_successfully');
-            $this->redirectToRoute('post_index');
-            }
+
+            return $this->redirectToRoute('post_index');
+
+        }
 
         return $this->render('user/edit.html.twig', [
             'form' => $form->createView(),
             'users' => $user,
         ]);
-
     }
 }

@@ -224,5 +224,4 @@ class CategoryController extends AbstractController
             ]
         );
     }
-
 }

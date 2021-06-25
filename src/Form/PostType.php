@@ -59,7 +59,6 @@ class PostType extends AbstractType
                         return $category->getTitle();
                     },
                     'label' => 'label_category',
-                    'placeholder' => 'label_none',
                     'required' => true,
                     'multiple' => false,
                 ]

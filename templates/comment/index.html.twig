@@ -20,10 +20,9 @@
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label_nick'|trans, 'comment.nick') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_content'|trans, 'comment.content') }}</th>
+                <th>{{ 'label_post'|trans }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_created_at'|trans, 'comment.createdAt') }}</th>
-                <th scope="col">
-                    {{ 'label_actions'|trans }}
-                </th>
+                {% if is_granted('ROLE_ADMIN') %}<th>{{ 'label_actions'|trans }}</th>{% endif %}
             </tr>
             </thead>
             <tbody>
@@ -31,6 +30,11 @@
                 <tr>
                     <td>{{ comment.nick }}</td>
                     <td>{{ comment.content }}</td>
+                    <td>
+                        <a href="{{ url('comment_index', {'filters.post_id' : comment.post.id}) }}" title="{{ comment.post.title }}">
+                            {{ comment.post.title }}
+                        </a>
+                    </td>
                     <td>{{ comment.createdAt|date('Y/m/d') }}</td>
                     <td>
                         {% if is_granted('VIEW', comment) %}

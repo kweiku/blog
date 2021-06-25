@@ -140,7 +140,7 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query recipes only by filters.
+     * Query posts only by filters.
      *
      * @param array $filters
      *

@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background: linear-gradient(to bottom, lightpink, rebeccapurple);
+    background-color: mistyrose;
     font-family: sans-serif;
     color: black;
     margin: 0 auto;
@@ -18,6 +18,13 @@ h1{
 }
 
 h2{
+    text-align: left;
+    padding: 20px;
+    font-size: 40px;
+    color: black;
+}
+
+h3 {
     text-align: center;
     padding: 20px;
     font-size: 40px;
@@ -25,7 +32,7 @@ h2{
 }
 
 a {
-    color: white;
+    color: black;
 }
 
 a:hover {
@@ -34,11 +41,11 @@ a:hover {
 }
 
 td a {
-    color: white;
+    color: black;
 }
 
 td a:hover {
-    color: black;
+    color: white;
     text-decoration: none;
 }
 
@@ -47,11 +54,14 @@ p a {
 }
 
 th{
-    background-color: black;
-    color: white;
+    color: black;
 }
 
 th a {
+    color: black;
+}
+
+th a:hover {
     color: white;
 }
 
@@ -121,6 +131,10 @@ nav a:hover {
     text-align: center;
 }
 
+#comment:hover .pod {
+    display: block;
+}
+
 .col-sm-10 {
     margin-right: 10px;
 }
@@ -157,9 +171,6 @@ nav a:hover {
     vertical-align: top;
 }
 
-.navigation .page-item active {
-}
-
 .page-link {
     color: deeppink;
 }
@@ -171,4 +182,9 @@ nav a:hover {
 button {
     background: black;
     margin-bottom: 20px;
+    color: white;
+}
+
+button a {
+    color: white;
 }
