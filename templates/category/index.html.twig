@@ -21,11 +21,9 @@
                 <tr>
                     <td>{{ category.title }}</td>
                     <td>
-                        {% if is_granted('VIEW', category) %}
                         <a href="{{ url('post_index', {id: category.id}) }}" title="{{ 'label_view'|trans }}">
                             {{ 'label_view'|trans }}
                         </a>
-                        {% endif %}
                     </td>
                     <td>
                         {% if is_granted('EDIT', category) %}

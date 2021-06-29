@@ -37,11 +37,9 @@
                     </td>
                     <td>{{ comment.createdAt|date('Y/m/d') }}</td>
                     <td>
-                        {% if is_granted('VIEW', comment) %}
                         <a href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'label_view'|trans }}">
                             {{ 'label_view'|trans }}
                         </a>
-                        {% endif %}
                     </td>
                     <td>
                         {% if is_granted('DELETE', comment) %}
