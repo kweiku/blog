@@ -21,7 +21,7 @@
                 <tr>
                     <td>{{ category.title }}</td>
                     <td>
-                        <a href="{{ url('post_index', {id: category.id}) }}" title="{{ 'label_view'|trans }}">
+                        <a href="{{ url('category_show', {id: category.id}) }}" title="{{ 'label_view'|trans }}">
                             {{ 'label_view'|trans }}
                         </a>
                     </td>

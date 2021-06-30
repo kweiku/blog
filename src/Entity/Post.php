@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
+
 /**
  * Post entity.
  */
@@ -6,10 +7,10 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,7 +25,7 @@ class Post
     /**
      *Id.
      *
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -78,7 +79,7 @@ class Post
     /**
      * Category.
      *
-     * @var \App\Entity\Category
+     * @var Category
      *
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
@@ -88,7 +89,7 @@ class Post
     /**
      * Comments.
      *
-     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Entity\Comment[] $comments Comments
+     * @var ArrayCollection|Comment[] Comments
      *
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post")
      */
@@ -97,13 +98,16 @@ class Post
     /**
      * Author.
      *
-     * @var \App\Entity\User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
+    /**
+     * Post constructor.
+     */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -163,6 +167,8 @@ class Post
      * Getter for Created At.
      *
      * @return DateTimeInterface|null Created at
+     *
+     * @noinspection PhpUnused
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -214,6 +220,7 @@ class Post
      *
      * @param Comment $comment
      *
+     * @return void
      */
     public function addComment(Comment $comment): void
     {
@@ -227,6 +234,8 @@ class Post
      * Remove comment.
      *
      * @param Comment $comment
+     *
+     * @return void
      */
     public function removeComment(Comment $comment): void
     {

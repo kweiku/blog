@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
+
 /**
  * Category entity.
  */
@@ -16,14 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * @ORM\Table(name="categories")
- *
  */
 class Category
 {
     /**
      * Id.
      *
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -50,7 +50,7 @@ class Category
     /**
      * Posts.
      *
-     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Entity\Post[] $posts Posts
+     * @var ArrayCollection|Post[] Posts
      *
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="category")
      */
@@ -61,6 +61,9 @@ class Category
      */
     private $author;
 
+    /**
+     * Category constructor.
+     */
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -110,7 +113,10 @@ class Category
      * Add post.
      *
      * @param Post $post
-     * @return $this
+     *
+     * @return void
+     *
+     * @noinspection PhpUnused
      */
     public function addPost(Post $post): void
     {
@@ -124,7 +130,10 @@ class Category
      * Remove post.
      *
      * @param Post $post
-     * @return $this
+     *
+     * @return void
+     *
+     * @noinspection PhpUnused
      */
     public function removePost(Post $post): void
     {
@@ -136,15 +145,23 @@ class Category
         }
     }
 
+    /**
+     * Getter for author.
+     *
+     * @return User|null
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    /**
+     * Setter for author.
+     *
+     * @param User|null $author
+     */
+    public function setAuthor(?User $author): void
     {
         $this->author = $author;
-
-        return $this;
     }
 }

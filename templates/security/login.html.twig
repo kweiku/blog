@@ -14,10 +14,10 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
+    <h1 class="h3 mb-3 font-weight-normal">{{ 'action_login'|trans }}</h1>
+    <label for="inputEmail">{{ 'label_email'|trans }}</label>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus><br>
+    <label for="inputPassword">{{ 'label_password'|trans }}</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
@@ -34,9 +34,9 @@
             </label>
         </div>
     #}
-
+    <br>
     <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
+        {{ 'action_login'|trans }}
     </button>
 </form>
 {% endblock %}

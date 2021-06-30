@@ -208,7 +208,7 @@
             </trans-unit>
             <trans-unit id="action_edited">
                 <source>action_edited</source>
-                <target>Edit</target>
+                <target>Save</target>
             </trans-unit>
             <trans-unit id="label_new_firstname">
                 <source>label_new_firstname</source>
@@ -233,6 +233,10 @@
             <trans-unit id="label_post">
                 <source>label_post</source>
                 <target>Post</target>
+            </trans-unit>
+            <trans-unit id="label_password">
+                <source>label_password</source>
+                <target>Password</target>
             </trans-unit>
         </body>
     </file>

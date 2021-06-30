@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUnusedParameterInspection */
+
 /**
  * Post fixtures.
  */
@@ -10,14 +11,16 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 /**
- * Class PostFixtures
+ * Class PostFixtures.
  */
 class PostFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Load data.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Persistence object manager
+     * @param ObjectManager $manager Persistence object manager
+     *
+     * @noinspection PhpParamsInspection
      */
     public function loadData(ObjectManager $manager): void
     {

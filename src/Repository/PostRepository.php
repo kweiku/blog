@@ -9,8 +9,10 @@ use App\Entity\Category;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class PostRepository.
@@ -31,7 +33,7 @@ class PostRepository extends ServiceEntityRepository
      *
      * @constant int
      */
-    const PAGINATOR_ITEMS_PER_PAGE = 10;
+    public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
      * PostRepository constructor.
@@ -46,10 +48,10 @@ class PostRepository extends ServiceEntityRepository
     /**
      * Save post.
      *
-     * @param \App\Entity\Post $post Post entity
+     * @param Post $post Post entity
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function save(Post $post): void
     {
@@ -60,10 +62,10 @@ class PostRepository extends ServiceEntityRepository
     /**
      * Delete post.
      *
-     * @param \App\Entity\Post $post Post entity
+     * @param Post $post Post entity
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(Post $post): void
     {
@@ -72,63 +74,14 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query all records.
-     *
-     * @param array $filters Filters array
-     *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
-     */
-    public function queryAll(array $filters = []): QueryBuilder
-    {
-        $queryBuilder = $this->getOrCreateQueryBuilder()
-            ->select(
-                'partial post.{id, createdAt, title}',
-                'partial category.{id, title}'
-            )
-            ->join('post.category', 'category')
-            ->orderBy('post.createdAt', 'DESC');
-        $queryBuilder = $this->applyFiltersToList($queryBuilder, $filters);
-
-        return $queryBuilder;
-    }
-
-    /**
-     * Apply filters to paginated list.
-     *
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder Query builder
-     * @param array $filters Filters array
-     *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
-     */
-    private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
-    {
-        if (isset($filters['category']) && $filters['category'] instanceof Category) {
-            $queryBuilder->andWhere('category = :category')
-                ->setParameter('category', $filters['category']);
-        }
-
-        return $queryBuilder;
-    }
-
-    /**
-     * Get or create new query builder.
-     *
-     * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder Query builder
-     *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
-     */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
-    {
-        return $queryBuilder ?? $this->createQueryBuilder('post');
-    }
-
-    /**
      * Query posts by author.
      *
-     * @param \App\Entity\User $user User entity
-     * @param array  $filters Filters array
+     * @param User  $user    User entity
+     * @param array $filters Filters array
      *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
+     * @return QueryBuilder Query builder
+     *
+     * @noinspection PhpUnused
      */
     public function queryByAuthor(User $user, array $filters = []): QueryBuilder
     {
@@ -140,15 +93,65 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query posts only by filters.
+     * Query all records.
      *
-     * @param array $filters
+     * @param array $filters Filters array
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryAll(array $filters = []): QueryBuilder
+    {
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial post.{id, createdAt, title}',
+                'partial category.{id, title}'
+            )
+            ->join('post.category', 'category')
+            ->orderBy('post.createdAt', 'DESC');
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
+    }
+
+    /**
+     * Query only by filters.
+     *
+     * @param array $filters Filters array
      *
      * @return QueryBuilder
+     *
+     * @noinspection PhpUnused
      */
     public function queryByFilter(array $filters = []): QueryBuilder
     {
-        $queryBuilder = $this->queryAll($filters);
+        return $this->queryAll($filters);
+    }
+
+    /**
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?? $this->createQueryBuilder('post');
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder $queryBuilder Query builder
+     * @param array        $filters      Filters array
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
+    {
+        if (isset($filters['category']) && $filters['category'] instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters['category']);
+        }
 
         return $queryBuilder;
     }

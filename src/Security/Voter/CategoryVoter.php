@@ -1,37 +1,23 @@
 <?php
+
 /**
  * Category security voter.
  */
+
 namespace App\Security\Voter;
 
 use App\Entity\Category;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class CategoryVoter.
+ *
+ * @noinspection PhpUnused
  */
 class CategoryVoter extends Voter
 {
-    /**
-     * Security helper.
-     *
-     * @var \Symfony\Component\Security\Core\Security
-     */
-    private $security;
-
-    /**
-     * OrderVoter constructor.
-     *
-     * @param \Symfony\Component\Security\Core\Security $security Security helper
-     */
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     /**
      * Determines if the attribute and subject are supported by this voter.
      *
@@ -40,9 +26,9 @@ class CategoryVoter extends Voter
      *
      * @return bool True if the attribute and subject are supported, false otherwise
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
-        return in_array($attribute, ['VIEW', 'EDIT', 'DELETE'])
+        return in_array($attribute, ['EDIT', 'DELETE'])
             && $subject instanceof Category;
     }
 
@@ -50,13 +36,13 @@ class CategoryVoter extends Voter
      * Perform a single access check operation on a given attribute, subject and token.
      * It is safe to assume that $attribute and $subject already passed the "supports()" method check.
      *
-     * @param string $attribute Attribute
-     * @param mixed $subject Subject
-     * @param TokenInterface $token Security token
+     * @param string         $attribute Attribute
+     * @param mixed          $subject   Subject
+     * @param TokenInterface $token     Security token
      *
      * @return bool Result
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
@@ -66,16 +52,14 @@ class CategoryVoter extends Voter
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case 'VIEW':
             case 'EDIT':
             case 'DELETE':
-            if ($subject->getAuthor() === $user) {
-                return true;
-            }
-            break;
+                if ($subject->getAuthor() === $user) {
+                    return true;
+                }
+                break;
             default:
                 return false;
-                break;
         }
 
         return false;

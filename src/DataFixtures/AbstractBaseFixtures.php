@@ -8,6 +8,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Faker\Generator;
 use InvalidArgumentException;
 use LogicException;
 
@@ -19,14 +20,14 @@ abstract class AbstractBaseFixtures extends Fixture
     /**
      * Faker.
      *
-     * @var \Faker\Generator
+     * @var Generator
      */
     protected $faker;
 
     /**
      * Persistence object manager.
      *
-     * @var \Doctrine\Persistence\ObjectManager
+     * @var ObjectManager
      */
     protected $manager;
 
@@ -40,7 +41,7 @@ abstract class AbstractBaseFixtures extends Fixture
     /**
      * Load.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Persistence object manager
+     * @param ObjectManager $manager Persistence object manager
      */
     public function load(ObjectManager $manager): void
     {
@@ -52,7 +53,7 @@ abstract class AbstractBaseFixtures extends Fixture
     /**
      * Load data.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Persistence object manager
+     * @param ObjectManager $manager Persistence object manager
      */
     abstract protected function loadData(ObjectManager $manager): void;
 
@@ -89,11 +90,31 @@ abstract class AbstractBaseFixtures extends Fixture
     }
 
     /**
+     * Get array of objects references based on count.
+     *
+     * @param string $groupName Object group name
+     * @param int    $count     Number of references
+     *
+     * @return array Result
+     */
+    protected function getRandomReferences(string $groupName, int $count): array
+    {
+        $references = [];
+        while (count($references) < $count) {
+            $references[] = $this->getRandomReference($groupName);
+        }
+
+        return $references;
+    }
+
+    /**
      * Set random reference to the object.
      *
      * @param string $groupName Objects group name
      *
      * @return object Random object reference
+     *
+     * @noinspection PhpUndefinedClassInspection
      */
     protected function getRandomReference(string $groupName): object
     {
@@ -114,23 +135,5 @@ abstract class AbstractBaseFixtures extends Fixture
         $randomReferenceKey = $this->faker->randomElement($this->referencesIndex[$groupName]);
 
         return $this->getReference($randomReferenceKey);
-    }
-
-    /**
-     * Get array of objects references based on count.
-     *
-     * @param string $groupName Object group name
-     * @param int    $count     Number of references
-     *
-     * @return array Result
-     */
-    protected function getRandomReferences(string $groupName, int $count): array
-    {
-        $references = [];
-        while (count($references) < $count) {
-            $references[] = $this->getRandomReference($groupName);
-        }
-
-        return $references;
     }
 }

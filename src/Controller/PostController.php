@@ -5,38 +5,40 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
-use App\Form\PostType;
-use App\Service\PostService;
 use App\Entity\Comment;
+use App\Entity\Post;
 use App\Form\CommentType;
+use App\Form\PostType;
 use App\Repository\CommentRepository;
+use App\Service\PostService;
+use DateTime;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class PostController.
  *
  * @Route("/post")
- *
  */
 class PostController extends AbstractController
 {
     /**
      * Post service.
      *
-     * @var \App\Service\PostService
+     * @var PostService
      */
     private $postService;
 
     /**
      * PostController constructor.
      *
-     * @param \App\Service\PostService $postService Post service
+     * @param PostService $postService Post service
      */
     public function __construct(PostService $postService)
     {
@@ -46,9 +48,9 @@ class PostController extends AbstractController
     /**
      * Index action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
+     * @param Request $request HTTP request
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
      * @Route(
      *     "/",
@@ -76,20 +78,15 @@ class PostController extends AbstractController
     /**
      * Show action.
      *
-     * @param \App\Entity\Post $post Post entity
+     * @param Post $post Post entity
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP Response
+     * @return Response HTTP Response
      *
      * @Route(
      *     "/{id}",
      *     methods={"GET"},
      *     name="post_show",
      *     requirements={"id": "[1-9]\d*"},
-     * )
-     *
-     * @IsGranted(
-     *     "VIEW",
-     *     subject="post",
      * )
      */
     public function show(Post $post): Response
@@ -103,18 +100,19 @@ class PostController extends AbstractController
     /**
      * Create action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
+     * @param Request $request HTTP request
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/create",
      *     methods={"GET", "POST"},
      *     name="post_create",
      * )
+     * @noinspection PhpParamsInspection
      */
     public function create(Request $request): Response
     {
@@ -139,13 +137,13 @@ class PostController extends AbstractController
     /**
      * Edit action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
-     * @param \App\Entity\Post $post Post entity
+     * @param Request $request HTTP request
+     * @param Post    $post    Post entity
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/{id}/edit",
@@ -183,13 +181,13 @@ class PostController extends AbstractController
     /**
      * Delete action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
-     * @param \App\Entity\Post $post Post entity
+     * @param Request $request HTTP request
+     * @param Post    $post    Post entity
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/{id}/delete",
@@ -231,14 +229,13 @@ class PostController extends AbstractController
     /**
      * Create comment action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
-     * @param \App\Repository\CommentRepository $commentRepository Comment repository
-     * @param \App\Entity\Post $post Post entity
+     * @param Request           $request           HTTP request
+     * @param CommentRepository $commentRepository Comment repository
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/{id}/comment",
@@ -246,8 +243,9 @@ class PostController extends AbstractController
      *     requirements={"id": "[1-9]\d*"},
      *     name="create",
      * )
+     * @noinspection PhpUndefinedMethodInspection
      */
-    public function createComment(Request $request, CommentRepository $commentRepository, Post $post): Response
+    public function createComment(Request $request, CommentRepository $commentRepository): Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -255,7 +253,7 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setPost($this->getId());
-            $comment->setCreatedAt(new \DateTime());
+            $comment->setCreatedAt(new DateTime());
             $commentRepository->save($comment);
 
             $this->addFlash('success', 'message_created_successfully');

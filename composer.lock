@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d78d0ba52e02303158e7e5e88f193e35",
+    "content-hash": "650cbe617475d7951278896a886e58c3",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -7609,16 +7609,16 @@
         },
         {
             "name": "escapestudios/symfony2-coding-standard",
-            "version": "3.12.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/djoos/Symfony-coding-standard.git",
-                "reference": "1524e573f5061555af3c363f0948c444d8522499"
+                "reference": "5cc7ad11da242182d9776b98b950d5565c32acd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/djoos/Symfony-coding-standard/zipball/1524e573f5061555af3c363f0948c444d8522499",
-                "reference": "1524e573f5061555af3c363f0948c444d8522499",
+                "url": "https://api.github.com/repos/djoos/Symfony-coding-standard/zipball/5cc7ad11da242182d9776b98b950d5565c32acd0",
+                "reference": "5cc7ad11da242182d9776b98b950d5565c32acd0",
                 "shasum": ""
             },
             "require": {
@@ -7658,7 +7658,7 @@
                 "phpcs",
                 "symfony"
             ],
-            "time": "2021-01-18T12:40:14+00:00"
+            "time": "2021-03-24T15:17:16+00:00"
         },
         {
             "name": "fakerphp/faker",
@@ -8668,7 +8668,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "escapestudios/symfony2-coding-standard": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

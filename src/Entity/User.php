@@ -1,4 +1,7 @@
 <?php
+
+/** @noinspection PhpPropertyOnlyWrittenInspection */
+
 /**
  * User entity.
  */
@@ -8,7 +11,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -34,14 +36,14 @@ class User implements UserInterface
      *
      * @var string
      */
-    const ROLE_USER = 'ROLE_USER';
+    public const ROLE_USER = 'ROLE_USER';
 
     /**
      * Role admin.
      *
      * @var string
      */
-    const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
 
     /**
      * Primary key.
@@ -116,7 +118,6 @@ class User implements UserInterface
      */
     private $lastname;
 
-
     /**
      * Getter for the Id.
      *
@@ -156,7 +157,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**
@@ -194,7 +195,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     /**
@@ -267,5 +268,4 @@ class User implements UserInterface
     {
         $this->lastname = $lastname;
     }
-
 }

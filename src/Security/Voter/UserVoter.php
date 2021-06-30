@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Category security voter.
+ * User security voter.
  */
 
 namespace App\Security\Voter;
@@ -8,31 +9,15 @@ namespace App\Security\Voter;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class UserVoter.
+ *
+ * @noinspection PhpUnused
  */
 class UserVoter extends Voter
 {
-    /**
-     * Security helper.
-     *
-     * @var \Symfony\Component\Security\Core\Security
-     */
-    private $security;
-
-    /**
-     * OrderVoter constructor.
-     *
-     * @param \Symfony\Component\Security\Core\Security $security Security helper
-     */
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     /**
      * Determines if the attribute and subject are supported by this voter.
      *
@@ -41,7 +26,7 @@ class UserVoter extends Voter
      *
      * @return bool True if the attribute and subject are supported, false otherwise
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return in_array($attribute, ['VIEW', 'EDIT', 'DELETE'])
             && $subject instanceof User;
@@ -56,8 +41,10 @@ class UserVoter extends Voter
      * @param TokenInterface $token     Security token
      *
      * @return bool Result
+     *
+     * @noinspection PhpParamsInspection
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
@@ -71,10 +58,8 @@ class UserVoter extends Voter
             case 'EDIT':
             case 'DELETE':
                 return $this->isAuthor($subject, $user);
-                break;
-                default:
-                    return false;
-                    break;
+            default:
+                return false;
         }
     }
 

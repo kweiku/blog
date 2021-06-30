@@ -1,4 +1,7 @@
 <?php
+
+/** @noinspection PhpPropertyOnlyWrittenInspection */
+
 /**
  * Comment entity.
  */
@@ -6,8 +9,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
-use Doctrine\ORM\Mapping as ORM;
 use DateTimeInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,7 +25,7 @@ class Comment
     /**
      * Id.
      *
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -83,15 +86,13 @@ class Comment
      * @ORM\Column(type="datetime")
      *
      * @Gedmo\Timestampable(on="create")
-     *
-     *
      */
     private $createdAt;
 
     /**
      * Post.
      *
-     * @var \App\Entity\Post
+     * @var Post
      *
      * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
@@ -172,6 +173,8 @@ class Comment
      * Getter for Created At.
      *
      * @return DateTimeInterface|null Created at
+     *
+     * @noinspection PhpUnused
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -191,7 +194,7 @@ class Comment
     /**
      * Getter for post.
      *
-     * @return Post|null
+     * @return Post|null Post
      */
     public function getPost(): ?Post
     {
@@ -201,7 +204,7 @@ class Comment
     /**
      * Setter for post.
      *
-     * @param Post|null $post
+     * @param Post|null $post Post
      */
     public function setPost(?Post $post): void
     {

@@ -7,6 +7,8 @@ namespace App\Service;
 
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -18,35 +20,81 @@ class CommentService
     /**
      * Comment repository.
      *
-     * @var \App\Repository\CommentRepository
+     * @var CommentRepository
      */
     private $commentRepository;
 
     /**
      * Paginator.
      *
-     * @var \Knp\Component\Pager\PaginatorInterface
+     * @var PaginatorInterface
      */
     private $paginator;
 
     /**
      * Post service.
      *
-     * @var \App\Service\PostService
+     * @var PostService
      */
     private $postService;
 
     /**
      * CommentService constructor.
      *
-     * @param \App\Repository\CommentRepository $commentRepository Comment repository
-     * @param \Knp\Component\Pager\PaginatorInterface $paginator Paginator
+     * @param CommentRepository  $commentRepository Comment repository
+     * @param PaginatorInterface $paginator         Paginator
+     * @param PostService        $postService       Post service
      */
     public function __construct(CommentRepository $commentRepository, PaginatorInterface $paginator, PostService $postService)
     {
         $this->commentRepository = $commentRepository;
         $this->paginator = $paginator;
         $this->postService = $postService;
+    }
+
+    /**
+     * Create paginated list.
+     *
+     * @param int   $page    Page number
+     * @param array $filters Filters array
+     *
+     * @return PaginationInterface Paginated list
+     */
+    public function createPaginatedList(int $page, array $filters): PaginationInterface
+    {
+        $filters = $this->prepareFilters($filters);
+
+        return $this->paginator->paginate(
+            $this->commentRepository->queryAll($filters),
+            $page,
+            CommentRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+
+    /**
+     * Save comment.
+     *
+     * @param Comment $comment Comment entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function save(Comment $comment): void
+    {
+        $this->commentRepository->save($comment);
+    }
+
+    /**
+     * Delete comment.
+     *
+     * @param Comment $comment Comment entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function delete(Comment $comment): void
+    {
+        $this->commentRepository->delete($comment);
     }
 
     /**
@@ -69,51 +117,5 @@ class CommentService
         }
 
         return $resultFilters;
-    }
-
-    /**
-     * Create paginated list.
-     *
-     * @param int $page Page number
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user User entity
-     * @param array $filters Filters array
-     *
-     * @return \Knp\Component\Pager\Pagination\PaginationInterface Paginated list
-     */
-    public function createPaginatedList(int $page, array $filters): PaginationInterface
-    {
-        $filters = $this->prepareFilters($filters);
-
-        return $this->paginator->paginate(
-            $this->commentRepository->queryAll($filters),
-            $page,
-            CommentRepository::PAGINATOR_ITEMS_PER_PAGE
-        );
-    }
-
-    /**
-     * Save comment.
-     *
-     * @param \App\Entity\Comment $comment Comment entity
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function save(Comment $comment): void
-    {
-        $this->commentRepository->save($comment);
-    }
-
-    /**
-     * Delete comment.
-     *
-     * @param \App\Entity\Comment $comment Comment entity
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function delete(Comment $comment): void
-    {
-        $this->commentRepository->delete($comment);
     }
 }

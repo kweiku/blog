@@ -17,14 +17,14 @@ class UserFixtures extends AbstractBaseFixtures
     /**
      * Password encoder.
      *
-     * @var \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface
+     * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
 
     /**
      * UserFixtures constructor.
      *
-     * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder Password encoder
+     * @param UserPasswordEncoderInterface $passwordEncoder Password encoder
      */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -34,7 +34,7 @@ class UserFixtures extends AbstractBaseFixtures
     /**
      * Load data.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Persistence object manager
+     * @param ObjectManager $manager Persistence object manager
      */
     public function loadData(ObjectManager $manager): void
     {
@@ -48,6 +48,8 @@ class UserFixtures extends AbstractBaseFixtures
                     'user1234'
                 )
             );
+            $user->setFirstname($this->faker->firstName);
+            $user->setLastname($this->faker->lastName);
 
             return $user;
         });
@@ -62,6 +64,8 @@ class UserFixtures extends AbstractBaseFixtures
                     'admin1234'
                 )
             );
+            $user->setFirstname($this->faker->firstName);
+            $user->setLastname($this->faker->lastName);
 
             return $user;
         });

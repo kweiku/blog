@@ -1,7 +1,12 @@
 <?php
+
+/** @noinspection PhpUnused */
+/** @noinspection PhpPropertyOnlyWrittenInspection */
+
 /**
  * Comment security voter.
  */
+
 namespace App\Security\Voter;
 
 use App\Entity\Comment;
@@ -18,14 +23,14 @@ class CommentVoter extends Voter
     /**
      * Security helper.
      *
-     * @var \Symfony\Component\Security\Core\Security
+     * @var Security
      */
     private $security;
 
     /**
      * OrderVoter constructor.
      *
-     * @param \Symfony\Component\Security\Core\Security $security Security helper
+     * @param Security $security Security helper
      */
     public function __construct(Security $security)
     {
@@ -36,13 +41,13 @@ class CommentVoter extends Voter
      * Determines if the attribute and subject are supported by this voter.
      *
      * @param string $attribute An attribute
-     * @param mixed  $subject The subject to secure, e.g. an object the user wants to access or any other PHP type
+     * @param mixed  $subject   The subject to secure, e.g. an object the user wants to access or any other PHP type
      *
      * @return bool True if the attribute and subject are supported, false otherwise
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
-        return in_array($attribute, ['VIEW', 'EDIT', 'DELETE'])
+        return in_array($attribute, ['EDIT', 'DELETE'])
             && $subject instanceof Comment;
     }
 
@@ -50,13 +55,13 @@ class CommentVoter extends Voter
      * Perform a single access check operation on a given attribute, subject and token.
      * It is safe to assume that $attribute and $subject already passed the "supports()" method check.
      *
-     * @param string $attribute Attribute
-     * @param mixed $subject Subject
-     * @param TokenInterface $token Security token
+     * @param string         $attribute Attribute
+     * @param mixed          $subject   Subject
+     * @param TokenInterface $token     Security token
      *
      * @return bool Result
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
@@ -66,7 +71,6 @@ class CommentVoter extends Voter
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case 'VIEW':
             case 'DELETE':
                 break;
         }

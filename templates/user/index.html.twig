@@ -33,10 +33,10 @@
                         <td>{{ users.email }}</td>
                         <td>
                             <a href="{{ url('users_show', {id: users.id}) }}" title="{{ 'label_view'|trans }}">
-                                &#128269;{{ 'label_view'|trans }}
+                                {{ 'label_view'|trans }}
                             </a>
                             <a href="{{ url('users_edit', {id: users.id}) }}" title="{{ 'label_edit'|trans }}" id="op">
-                                &#128736;{{ 'label_edit'|trans }}
+                                {{ 'label_edit'|trans }}
                             </a>
                         </td>
                     </tr>

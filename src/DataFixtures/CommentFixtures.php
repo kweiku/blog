@@ -1,4 +1,7 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
+/** @noinspection PhpUnusedParameterInspection */
+
 /**
  * Comment fixtures.
  */
@@ -10,14 +13,16 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 /**
- * Class CommentFixtures
+ * Class CommentFixtures.
  */
 class CommentFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Load data.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Persistence object manager
+     * @param ObjectManager $manager Persistence object manager
+     *
+     * @noinspection PhpParamsInspection
      */
     public function loadData(ObjectManager $manager): void
     {

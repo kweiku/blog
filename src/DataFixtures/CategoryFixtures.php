@@ -10,14 +10,17 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 /**
- * Class CategoryFixtures
+ * Class CategoryFixtures.
  */
 class CategoryFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Load data.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Object manager
+     * @param ObjectManager $manager Object manager
+     *
+     * @noinspection PhpParamsInspection
+     * @noinspection PhpUnusedParameterInspection
      */
     public function loadData(ObjectManager $manager): void
     {

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Users controller.
  */
@@ -37,6 +36,11 @@ class UserController extends AbstractController
      *     name="users_show",
      *     requirements={"id": "[1-9]\d*"},
      * )
+     *
+     * @IsGranted(
+     *     "VIEW",
+     *     subject="user",
+     * )
      */
     public function show(User $user): Response
     {
@@ -61,7 +65,7 @@ class UserController extends AbstractController
      *     name="users_edit",
      * )
      *
-     *@IsGranted(
+     * @IsGranted(
      *     "EDIT",
      *     subject="user",
      * )

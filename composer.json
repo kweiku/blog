@@ -44,7 +44,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "escapestudios/symfony2-coding-standard": "^3.12",
+        "escapestudios/symfony2-coding-standard": "3.x-dev",
         "fakerphp/faker": "^1.14",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpmd/phpmd": "^2.10",

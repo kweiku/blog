@@ -8,32 +8,33 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Service\CategoryService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CategoryController.
  *
  * @Route("/category")
- *
  */
 class CategoryController extends AbstractController
 {
     /**
      * Category service.
      *
-     * @var \App\Service\CategoryService
+     * @var CategoryService
      */
     private $categoryService;
 
     /**
      * CategoryController constructor.
      *
-     * @param \App\Service\CategoryService $categoryService Category service
+     * @param CategoryService $categoryService Category service
      */
     public function __construct(CategoryService $categoryService)
     {
@@ -43,9 +44,9 @@ class CategoryController extends AbstractController
     /**
      * Index action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
+     * @param Request $request HTTP request
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
      * @Route(
      *     "/",
@@ -69,18 +70,13 @@ class CategoryController extends AbstractController
      *
      * @param Category $category Category entity
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP Response
+     * @return Response HTTP Response
      *
      * @Route(
      *     "/{id}",
      *     methods={"GET"},
      *     name="category_show",
      *     requirements={"id": "[1-9]\d*"},
-     * )
-     *
-     * @IsGranted(
-     *     "VIEW",
-     *     subject="category",
      * )
      */
     public function show(Category $category): Response
@@ -94,18 +90,19 @@ class CategoryController extends AbstractController
     /**
      * Create action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
+     * @param Request $request HTTP request
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/create",
      *     methods={"GET", "POST"},
      *     name="category_create",
      * )
+     * @noinspection PhpParamsInspection
      */
     public function create(Request $request): Response
     {
@@ -130,13 +127,13 @@ class CategoryController extends AbstractController
     /**
      * Edit action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
-     * @param \App\Entity\Category $category Category entity
+     * @param Request  $request  HTTP request
+     * @param Category $category Category entity
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/{id}/edit",
@@ -174,13 +171,13 @@ class CategoryController extends AbstractController
     /**
      * Delete action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP request
-     * @param \App\Entity\Category $category Category entity
+     * @param Request  $request  HTTP request
+     * @param Category $category Category entity
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/{id}/delete",

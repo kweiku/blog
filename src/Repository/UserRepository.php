@@ -3,7 +3,6 @@
  * User repository.
  */
 
-
 namespace App\Repository;
 
 use App\Entity\User;
@@ -12,6 +11,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use function get_class;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -35,17 +35,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     private $passwordEncoder;
 
     /**
-     * Items per page.
-     *
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them in app/config/config.yml.
-     * See https://symfony.com/doc/current/best_practices.html#configuration
-     *
-     * @constant int
-     */
-    public const PAGINATOR_ITEMS_PER_PAGE = 10;
-
-    /**
      * UserRepository constructor.
      *
      * @param ManagerRegistry $registry Manager registry
@@ -58,11 +47,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
+     * @param UserInterface $user
+     * @param string        $newEncodedPassword
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
 
         $user->setPassword($newEncodedPassword);
@@ -73,7 +68,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Save user.
      *
-     * @param User $user User entity
+     * @param User        $user User entity
+     * @param string|null $newPassword
      *
      * @throws ORMException
      * @throws OptimisticLockException
@@ -97,6 +93,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Query all records.
      *
      * @return QueryBuilder Query builder
+     *
+     * @noinspection PhpUnused
      */
     public function queryAll(): QueryBuilder
     {
@@ -115,8 +113,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         return $queryBuilder ?? $this->createQueryBuilder('users');
     }
-
-
 
     // /**
     //  * @return User[] Returns an array of User objects
